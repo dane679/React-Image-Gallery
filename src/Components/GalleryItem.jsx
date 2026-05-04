@@ -1,0 +1,71 @@
+import { imageCollector } from "../Services/Imagecollect.js";
+import { useEffect, useState } from "react";
+import SkeletonGalleryItem from "./SkeletonGalleryItem";
+import { Link, useNavigate } from "react-router-dom";
+// import { getFromCache, setInCache } from "@/utils/cache";
+
+export default function GalleryItem({ item, addToAspList }) {
+  const [imageData, setImageData] = useState(item);
+  const [activeId, setActiveId] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const navigate = useNavigate();
+
+  // Recreation of old function used
+  // to send aspect ratio upward once
+  // to create nature feeling and random
+  // sizes for the loading state
+  // useEffect(() => {
+  //   addToAspList(imageData.width / imageData.height);
+  // }, [imageData, addToAspList]);
+
+  if (!item) {
+    return (
+      <div className="skeleton-item-container">
+        <SkeletonGalleryItem />
+      </div>
+    );
+  }
+  // else {
+  //   return (
+  //     <div className="skeleton-item-container">
+  //       <SkeletonGalleryItem />
+  //     </div>
+  //   );
+  // }
+
+  return (
+    <div>
+      <div className="gallery-item-container">
+        <Link
+          to={`/Photos/${imageData.id}`}
+          className="gallery-item"
+          data-category={imageData.tags}
+          state={{ imageData, fromGallery: true }}
+          viewTransition
+          onPointerDown={() => setActiveId(imageData.id)}
+        >
+          <div
+            className="gallery-img-wrapper"
+            style={{
+              aspectRatio: `${imageData.width} / ${imageData.height}`,
+            }}
+          >
+            <img
+              // src={imageData.baseUrl}
+              src={`${imageData.baseUrl}?w=600`}
+              // src={`${imageData.baseUrl}`}
+              alt={imageData.alt_description}
+              style={{
+                viewTransitionName:
+                  activeId === imageData.id ? `photo-transition` : "none",
+              }}
+              onLoad={() => setLoaded(true)}
+              className={loaded ? "loaded" : ""}
+            />
+          </div>
+          <p>{imageData.alt_description}</p>
+        </Link>
+      </div>
+    </div>
+  );
+}
