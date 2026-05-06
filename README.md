@@ -26,6 +26,10 @@ The project is designed as both a functional application and a case study, with 
 <!-- <video src="public/media/RIG-DemoVideo.mp4" autoplay loop muted playsinline controls width="800"></video> -->
 <!-- <video src="public/media/RIG-DemoVideo.mp4" controls width="800"></video> -->
 
+## Live Code Demo
+
+[View on CodeSandbox](https://codesandbox.io/p/devbox/frosty-grass-6xfx6x)
+
 ## Features
 * Search images using keywords
 * Filter images by category
