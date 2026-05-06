@@ -19,8 +19,11 @@ The project is designed as both a functional application and a case study, with 
 
 ---
 
-## Demo
-<video src="public/media/RIG-DemoVideo.mp4" autoplay loop muted playsinline controls width="800"></video>
+<!--## Demo 
+<video controls width="800">
+  <source src="public/media/RIG-DemoVideo.mp4" type="video/mp4">
+</video>
+<!-- <video src="public/media/RIG-DemoVideo.mp4" autoplay loop muted playsinline controls width="800"></video> -->
 <!-- <video src="public/media/RIG-DemoVideo.mp4" controls width="800"></video> -->
 
 ## Features
