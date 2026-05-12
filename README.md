@@ -30,6 +30,8 @@ The project is designed as both a functional application and a case study, with 
 
 [View on CodeSandbox](https://codesandbox.io/p/devbox/frosty-grass-6xfx6x)
 
+Run the project instantly in your browser minamal setup required. If required start the dev server, to start the live demo. The platform allows users to fork, edit and download sourcecode.
+
 ## Features
 * Search images using keywords
 * Filter images by category
