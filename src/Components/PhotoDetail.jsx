@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { imageCollector } from "../Services/Imagecollect";
 import {
   FaExternalLinkAlt,
-  FaExternalLinkSquareAlt,
-  FaUserCircle,
   FaArrowLeft,
   FaLink,
   FaCheck,
   FaCalendar,
-  FaRegCalendar,
-  FaMapPin,
   FaMapMarked,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +15,6 @@ import Tags from "./Tags.jsx";
 
 export default function PhotoDetail() {
   const { imageid } = useParams();
-  // const [imageData, setImageData] = useState(null);
   const location = useLocation();
   const [imageData, setImageData] = useState(location.state?.imageData || null);
   const cameFromGallery = location.state?.fromGallery === true;
@@ -29,10 +24,7 @@ export default function PhotoDetail() {
     getDerivedContrastColor(location.state?.imageData.color) || null
   );
   const [copied, setCopied] = useState(false);
-  // const [width, setWidth] = useState();
-  // const [height, setHeight] = useState();
 
-  // console.log(cameFromGallery);
   const handleBack = (imageDataid) => {
     if (window.history.length > 1 && cameFromGallery) {
       navigate(-1, {
@@ -59,7 +51,6 @@ export default function PhotoDetail() {
   useEffect(() => {
     if (imageData) {
       console.log(imageData);
-      // setContrastColor(getDerivedContrastColor(imageData.color));
       return;
     }
 
@@ -69,8 +60,6 @@ export default function PhotoDetail() {
       setImageData(data);
       setContrastColor(getDerivedContrastColor(data.color));
       console.log(ContrastColor);
-      // const width = imageData.width;
-      // const height = imageData.height;
     }
     fetchImage();
   }, [imageid]);
@@ -120,8 +109,7 @@ export default function PhotoDetail() {
 
   if (!imageData) {
     return <p>Loading image...</p>;
-  } else {
-  }
+  } 
 
   return (
     <main className="page-wrapper">
@@ -136,9 +124,7 @@ export default function PhotoDetail() {
           className="top-bar"
           style={{ backgroundColor: imageData.color, color: ContrastColor }}
         >
-          {/* <a className="photo-link" href={imageData.creatorLink} target="_blank" rel="noopener noreferrer">
-            <img src={imageData.medium} alt="Gallery image" />
-          </a>    */}
+
           <button
             className="back-btn"
             onClick={() => {
@@ -163,17 +149,6 @@ export default function PhotoDetail() {
               <span className="username">@{imageData.username}</span>
             </div>
           </span>
-
-          {/* <button
-            className={`copy-link-btn ${copied ? "copied" : ""}`}
-            onClick={handleCopy}
-            aria-label="Copy link"
-          >
-            <span className="copy-link-icon">
-              {copied ? <FaCheck /> : <FaLink />}
-            </span>
-            <span>{copied ? "Copied!" : "Copy link"}</span>
-          </button> */}
 
           <div className="copy-link-wrapper">
             <button
@@ -207,20 +182,10 @@ export default function PhotoDetail() {
           >
             <FaExternalLinkAlt />{" "}
           </a>
-          {/* <a className="photo-link" href={imageData.html} target="_blank" rel="noopener noreferrer">
-            <FaExternalLinkAlt />
-          </a> */}
         </div>
 
         <div className="photo-detail">
-          {/* <img
-            src={imageData.baseUrl}
-            alt={imageData.alt_description}
-            className="focus-image"
-            style={{ viewTransitionName: `image-${imageData.id}` }}
-          /> */}
           <img
-            // src={imageData.baseUrl}
             src={`${imageData.baseUrl}?w=600`}
             alt={imageData.alt_description}
             className="focus-image"
@@ -245,9 +210,6 @@ export default function PhotoDetail() {
             <div className="meta-item">
               <span className="meta-label">Location:</span>
               <span className="meta-value">
-                {/* {imageData.city && imageData.country
-                  ? `${imageData.city}, ${imageData.country}`
-                  : "Unknown"} */}
                 {imageData.locationName
                   ? `${imageData.locationName}`
                   : "Unknown"}

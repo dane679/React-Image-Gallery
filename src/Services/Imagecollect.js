@@ -6,8 +6,6 @@ export const imageCollector = async (photoId) => {
   try {
     const res = await fetch(apiUrl);
     const data = await res.json();
-    console.log(data);
-    // formatCurrentImage(data);
     return formatCurrentImage(data);
   } catch (error) {
     console.error("Error fetching photo:", error);
@@ -34,18 +32,8 @@ const formatCurrentImage = (data) => {
     created_at,
     location,
   } = data;
-  // console.log(
-  //   `${id}, \n${alt_description}, \n${color}, \n${city}, \n${country}, \n${name}, \n${tags}`
-  // );
   const tagTitles = tags.map((tag) => tag.title);
-  // console.log(tags);
-  // console.log(tagTitles);
   const baseUrl = raw.split("?")[0];
-  // console.log(html);
-  // console.log(creatorLink);
-  // console.log(raw);
-  // console.log(baseUrl);
-  // console.log(html);
 
   return {
     id,

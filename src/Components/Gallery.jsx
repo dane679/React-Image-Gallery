@@ -1,6 +1,5 @@
 import GalleryItem from "./GalleryItem";
-// import { imageCollector } from "../Services/Imagecollect";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Gallery({ imageList }) {
   const [collectedAsp, setCollectedAsp] = useState([]);
@@ -8,11 +7,6 @@ export default function Gallery({ imageList }) {
   const addToAspList = (item) => {
     setCollectedAsp((prev) => [...prev, item]);
   };
-
-  // useEffect(() => {
-  //   collectedAsp.sort();
-  //   console.log(`ASP: ${collectedAsp}`);
-  // }, [collectedAsp]);
 
   return (
     <>
@@ -25,7 +19,6 @@ export default function Gallery({ imageList }) {
             addToAspList={addToAspList}
           />
         ))}
-        {/* <GalleryItem item={"A5rCN8626Ck"} /> */}
       </div>
     </>
   );

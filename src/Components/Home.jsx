@@ -86,8 +86,6 @@ export default function App() {
     });
   }
 
-  // console.log("activeId:", activeId);
-
   useEffect(() => {
     async function fetchAllImages() {
       const results = await Promise.all(
@@ -103,12 +101,10 @@ export default function App() {
 
           setInCache(cacheKey, image);
           return image;
-          // return imageCollector(code);
         })
       );
 
       setAllImages(results);
-      // console.log("Fetched results:", results);
     }
     fetchAllImages();
   }, []);
@@ -135,7 +131,6 @@ export default function App() {
   useLayoutEffect(() => {
     if (location.state?.activeId) {
       setActiveId(location.state?.activeId);
-      console.log("location State:", location.state.activeId);
     }
   }, [location.state]);
 
@@ -147,19 +142,15 @@ export default function App() {
         <div className="controls-container">
           <SearchBox
             searchTerm={searchTerm}
-            // setSearchTerm={setSearchTerm}
             setSearchTerm={updateSearchTerm}
             searchInput={searchInput}
             setSearchInput={setSearchInput}
           />
           <FilterButtons
             activeFilter={activeFilter}
-            // setActiveFilter={setActiveFilter}
             setActiveFilter={updateFilter}
           />
         </div>
-        {/* <Gallery imageList={filteredImages} /> */}
-        {/* <Gallery imageList={filteredImageCodes} /> */}
         {!allImages ? (
           <div className="gallery">
             {defaultImageCodes.map((_, idx) => (

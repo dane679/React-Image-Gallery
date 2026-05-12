@@ -13,7 +13,6 @@ export default function Tags({ tagList }) {
           <Link
             key={idx}
             className={`tag-btn`}
-            // onClick={() => console.log(tag)}
             to={`/?filter=${encodeURIComponent(capitaliseFirstLetter(tag))}`}
             style={{ "--tag-delay": `${180 + idx * 60}ms` }}
           >

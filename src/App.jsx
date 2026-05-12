@@ -4,7 +4,6 @@ import PhotoDetail from "./Components/PhotoDetail.jsx";
 import About from "./Components/About.jsx";
 import NotFound from "./Components/NotFound.jsx";
 import StandardLayout from "./Layouts/StandardLayout.jsx";
-// import { useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter(
