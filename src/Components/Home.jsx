@@ -55,7 +55,6 @@ export default function App() {
     ? decodeURIComponent(searchParams.get("filter"))
     : "All";
 
-  // const [allImages, setAllImages] = useState(null);
   const [allImages, setAllImages] = useState(() => {
     const cachedImages = defaultImageCodes
       .map((code) => getFromCache(`image-${code}`))

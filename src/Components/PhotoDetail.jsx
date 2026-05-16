@@ -50,7 +50,6 @@ export default function PhotoDetail() {
 
   useEffect(() => {
     if (imageData) {
-      console.log(imageData);
       return;
     }
 
@@ -87,8 +86,8 @@ export default function PhotoDetail() {
     const hours = Math.floor(diffInSeconds / 3600);
     const days = Math.floor(diffInSeconds / 86400);
     const weeks = Math.floor(diffInSeconds / 604800);
-    const months = Math.floor(diffInSeconds / 2629800); // avg month
-    const years = Math.floor(diffInSeconds / 31557600); // avg year
+    const months = Math.floor(diffInSeconds / 2629800); 
+    const years = Math.floor(diffInSeconds / 31557600); 
 
     if (diffInSeconds < 60) return "Just now";
     if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
