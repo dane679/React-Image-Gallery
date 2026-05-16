@@ -1,8 +1,9 @@
-const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
-
 export const imageCollector = async (photoId) => {
-  const apiUrl = `https://api.unsplash.com/photos/${photoId}?client_id=${accessKey}`;
 
+  const apiUrl = import.meta.env.DEV
+  ? `https://api.unsplash.com/photos/${photoId}?client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
+  : `/api/images?id=${photoId}`;
+  
   try {
     const res = await fetch(apiUrl);
     const data = await res.json();
