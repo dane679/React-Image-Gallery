@@ -26,6 +26,13 @@ The project is designed as both a functional application and a case study, with 
 <!-- <video src="public/media/RIG-DemoVideo.mp4" autoplay loop muted playsinline controls width="800"></video> -->
 <!-- <video src="public/media/RIG-DemoVideo.mp4" controls width="800"></video> -->
 
+## Live Website
+
+[View Live Website](https://react-image-gallery-dusky.vercel.app/)
+
+Deployed on Vercel with full serverless API support. No setup required — just open and browse.
+
+---
 ## Live Code Demo
 
 [View on CodeSandbox](https://codesandbox.io/p/devbox/frosty-grass-6xfx6x)
@@ -41,6 +48,7 @@ Run the project instantly in your browser minamal setup required. If required st
 * Skeleton loading states to reduce layout shift
 * Responsive layout across different screen sizes
 * Detailed photo view with metadata (location, author, resolution, etc.)
+* Serverless API layer to keep credentials secure in production
 
 ## Tech Stack
 * React
@@ -70,23 +78,22 @@ cd React-Image-Gallery
 npm install
 ```
 
-### 3. Run the development server
+### 3. Set up environment variables
+
+Create a `.env` file in the project root:
+
+```bash
+VITE_UNSPLASH_ACCESS_KEY=your_key
+```
+
+Get your free API key from [unsplash.com/developers](https://unsplash.com/developers).
+
+### 4. Run the development server
 
 ```bash
 npm run dev
 ```
 ## How It Works
-
-### Fetching Data
-
-Image data is fetched using an async function:
-
-```js
-const data = await imageCollector(photoId);
-```
-
-* The API response is transformed into a cleaner structure before use
-* Only relevant fields (tags, urls, metadata) are kept
 
 ### Filtering
 Filtering is handled client-side:
@@ -108,6 +115,59 @@ const cached = getFromCache(cacheKey);
 * Previously fetched images are stored and reused
 * Improves performance when navigating between pages
 
+### Fetching Data
+
+Image data is fetched using an async function:
+
+```js
+const data = await imageCollector(photoId);
+```
+
+* The API response is transformed into a cleaner structure before use
+* Only relevant fields (tags, urls, metadata) are kept
+
+### API Security Serverless Function
+
+In production it is unsafe to call Unsplash directly from the browser. Instead all requests are routed through a Vercel serverless function at `/api/images`, which reads the API key from a server-side environment variable and forwards the request from Unsplash. This prevents the key from ever appearing in client-side.
+
+```js
+export default async function handler(req, res) {
+  const { id } = req.query;
+  const response = await fetch(`https://api.unsplash.com/photos/${id}`, {
+    headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
+  });
+  const data = await response.json();
+  res.setHeader("Cache-Control", "s-maxage=86400");
+  res.status(200).json(data);
+}
+```
+
+You can see the API endpoint at work here:
+**[/api/images?id=A5rCN8626Ck](https://react-image-gallery-dusky.vercel.app/api/images?id=A5rCN8626Ck)**
+
+### Environment-Aware API Routing
+
+The frontend automatically switches how it calls the API depending on the environment it's running in:
+
+```js
+const apiUrl = import.meta.env.DEV
+  ? `https://api.unsplash.com/photos/${photoId}?client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
+  : `/api/images?id=${photoId}`;
+```
+
+- **Local development** (`npm run dev`): Calls Unsplash directly using the `VITE_` prefixed key from the `.env` environment variable, since the serverless function isn't available locally.
+
+- **Production (Vercel)**: routes through `/api/images`, using the endpoint to keep the key secure on the server.
+
+`import.meta.env.DEV` checks the environment the code is running in, it is `true` during development and `false` in the production build.
+
+## Testing the API locally
+
+A Node.js test script is included at `tests/test-api.js` to verify the Vercel method of Unsplash integration works before redeployment. Can be run from the root directory using the below command:
+
+```bash
+node tests/test-api.js
+```
 ## Customisation
 ### Modify Filtering Logic
 
