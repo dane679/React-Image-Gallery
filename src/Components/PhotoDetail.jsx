@@ -286,7 +286,12 @@ export default function PhotoDetail() {
           <div className="creator-credit">
             <span>
               Photo by{" "}
-              <a className="acknowlegment" href={imageData.creatorLink}>
+              <a
+                className="acknowlegment"
+                href={imageData.creatorLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {imageData.fullname}
               </a>{" "}
               on Unsplash
