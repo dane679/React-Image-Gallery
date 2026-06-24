@@ -89,21 +89,23 @@ export default function App() {
     async function fetchAllImages() {
       const results = await Promise.all(
         defaultImageCodes.map(async (code) => {
-          const cacheKey = `image-${code}`;
+        const cacheKey = `image-${code}`;
+        const cached = getFromCache(cacheKey);
+        if (cached) return cached;
 
-          const cached = getFromCache(cacheKey);
-          if (cached) {
-            return cached;
-          }
-
+        try {
           const image = await imageCollector(code);
-
+          if (!image) return null;
           setInCache(cacheKey, image);
           return image;
-        })
-      );
+        } catch (err) {
+          console.error(`Failed to load image ${code}:`, err);
+          return null;
+        }
+      })
+    );
 
-      setAllImages(results);
+    setAllImages(results.filter(Boolean));
     }
     fetchAllImages();
   }, []);
@@ -115,9 +117,11 @@ export default function App() {
     const normalizedSearch = searchInput.toLowerCase().trim();
 
     return allImages.filter((image) => {
+      if (!image) return false;
+
       const matchesCategory =
         normalizedFilter === "all" ||
-        image.tags.some((tag) => tag.toLowerCase().trim() === normalizedFilter);
+        image.tags?.some((tag) => tag.toLowerCase().trim() === normalizedFilter);
 
       const matchesSearch = image.alt_description
         ?.toLowerCase()
